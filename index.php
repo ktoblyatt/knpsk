@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CINEPLEX X - Премиум Кинотеатр</title>
+    <meta name="description" content="Смотрите новинки кино, популярные фильмы и сериалы в высоком качестве. Премиум интерфейс, отсутствие рекламы.">
+    <meta name="keywords" content="фильмы, кино, сериалы, смотреть онлайн, 4k, hdr">
+    
+    <meta property="og:title" content="CINEPLEX X | Premium Cinema">
+    <meta property="og:description" content="Кинотеатр нового поколения.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mywiwi.ru">
+    <meta property="og:image" content="https://mywiwi.ru/social2.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        .movie-backdrop {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background-size: cover; background-position: center 20%;
+            mask-image: linear-gradient(to bottom, black 0%, transparent 80%);
+            -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 80%);
+            filter: blur(30px) brightness(0.4);
+            opacity: 0; transition: opacity 0.8s ease; pointer-events: none;
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="icon" href="favicon.png" type="image/png">
+</head>
+<body>
+
+<div class="bg-mesh">
+    <div class="glass-drop drop-1"></div>
+    <div class="glass-drop drop-2"></div>
+    <div class="glass-drop drop-3"></div>
+</div>
+
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(101752062, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/101752062" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<div class="app-wrapper">
+    
+    <header class="top-nav">
+        <a href="#" class="logo" onclick="resetToHome(); return false;">
+            <span class="logo-text">CINEPLEX <span class="accent">X</span></span>
+        </a>
+        <button class="menu-btn" aria-label="Menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <main class="main-content">
+        
+        <div class="search-section">
+            <div class="search-glass-container">
+                <div class="search-box glass-panel neon-glow">
+                    <input type="text" id="movieTitle" class="search-input" placeholder="Search movies, series..." autocomplete="off">
+                    <button class="search-button" aria-label="Search" onclick="searchMovie()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="autocomplete glass-panel hidden-state" id="autocomplete"></div>
+            </div>
+        </div>
+
+        <section class="section hidden-state" id="historySection">
+            <div class="section-header">
+                <h2 class="section-title">Watch History</h2>
+                <div class="slider-controls">
+                    <button class="ctrl-btn" onclick="document.getElementById('movieHistory').scrollBy({left: -300, behavior: 'smooth'})"><i class="fas fa-chevron-left"></i></button>
+                    <button class="ctrl-btn" onclick="document.getElementById('movieHistory').scrollBy({left: 300, behavior: 'smooth'})"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="movies-scroll-container" id="movieHistory"></div>
+        </section>
+
+        <div class="view-movie hidden-state" id="movieInfo">
+            
+            <div class="movie-backdrop" id="movieBackdrop"></div>
+
+            <div class="movie-hero-grid">
+                <div class="movie-poster-card glass-panel neon-glow">
+                    <img id="posterImage" src="" alt="Poster">
+                </div>
+
+                <div class="movie-info-card">
+                    <h1 class="movie-title" id="movieTitleDisplay"></h1>
+                    
+                    <div class="movie-meta-row">
+                        <div id="movieMeta" style="display:flex; gap:10px;"></div>
+                        <div class="movie-badge" id="movieBadge">
+                            <i class="fas fa-star text-gold"></i>
+                            <span id="movieRatingBadge">0.0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="movie-actions">
+                        <button class="btn-primary" onclick="document.getElementById('player_iframe').scrollIntoView({behavior: 'smooth', block: 'center'})">
+                            <i class="fas fa-play"></i> WATCH NOW
+                        </button>
+                        <button class="btn-secondary" id="favoriteBtn">
+                            <i class="far fa-heart"></i> ADD TO FAVORITES
+                        </button>
+                    </div>
+
+                    <p class="movie-description" id="description"></p>
+                    <div class="movie-details-grid" id="movieDetails"></div>
+                </div>
+            </div>
+
+            <div class="movie-player-wrapper neon-glow">
+                <div id="player_iframe" class="movie-player kinobox_player"></div>
+            </div>
+        </div>
+
+        <section class="section hidden-state" id="similarMovies">
+            <div class="section-header">
+                <h2 class="section-title">Similar Movies</h2>
+                <div class="slider-controls">
+                    <button class="ctrl-btn" onclick="document.getElementById('similarMoviesList').scrollBy({left: -300, behavior: 'smooth'})"><i class="fas fa-chevron-left"></i></button>
+                    <button class="ctrl-btn" onclick="document.getElementById('similarMoviesList').scrollBy({left: 300, behavior: 'smooth'})"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="movies-scroll-container" id="similarMoviesList"></div>
+        </section>
+
+    </main>
+</div>
+
+<button class="scroll-top" id="scrollTop" aria-label="Scroll to top">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<script src="main.js"></script>
+<script src="player.js"></script>
+
+</body>
+</html>
