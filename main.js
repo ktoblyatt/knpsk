@@ -22,7 +22,8 @@ const AppConfig = {
         directors: 2
     },
     api: {
-        keysEndpoint: 'http://u92923sz.beget.tech/api_keys.php', // Путь к скрипту ротации ключей
+        // ИСПРАВЛЕНО: Теперь путь ведет на локальный API Vercel
+        keysEndpoint: '/api/keys', 
         fallbackKey: '8c8e1a50-6322-4130-8a8f-123456789012',
         maxRetries: 3,
         baseUrl: 'https://kinopoiskapiunofficial.tech/api'
@@ -616,4 +617,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
     
     UI.setViewMode('home');
+
 });
